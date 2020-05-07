@@ -1,28 +1,30 @@
 #!/usr/bin/env python
 import getopt, sys
 
-def main():
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "ho:v", ["help", "output="])
-    except getopt.GetoptError as err:
-        # print help information and exit:
-        print str(err)  # will print something like "option -a not recognized"
-        print("Try 'dmgr -h' for more information")
-        sys.exit(2)
-    output = None
-    verbose = False
-    for o, a in opts:
-        if o == "-v":
-            verbose = True
-        elif o in ("-h", "--help"):
-            help()
-            sys.exit()
+class Action():
+    def option(self, args):
+        print(str(args))
+        if args in ("-h", "--help"):
+            print("h")
+        elif args in ("-v", "--version"):
+            #act1.option()
+            print("v")
         else:
-            assert False, "unhandled option"
+            print("option " + args + " not recognized\nTry 'dmgr -h' for more information")
             sys.exit()
 
-def help():
-    print("placeholder")
+class Option():
+    def main(self):
+        act1 = Action()
+        try:
+            opts, args = getopt.getopt(sys.argv[1:], "ho:v", ["help", "output="])
+        except getopt.GetoptError as err:
+            print(str(err))
+            print("Try 'dmgr -h' for more information")
+            sys.exit()
+        for o, a in opts:
+            act1.option(o)
 
-if _name_ == "_main_":
-    main()
+if __name__ == "__main__":
+    opt1 = Option()
+    opt1.main()
