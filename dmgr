@@ -1,0 +1,90 @@
+#!/usr/bin/env python
+import getopt, sys, subprocess as sp
+import argparse
+import os
+
+opts = sys.argv[1:]
+def getExtension(src):                                                          #TODO: doesn't work properly
+    cnt = 0
+    for x in src:
+        cnt += 1
+    if src[cnt] == 'b':
+        return('deb')
+    elif src[cnt] == 'm':
+        return('rpm')
+    else:
+        print(cnt)
+        return 0
+
+class Action():
+    def option(self):
+        try:
+            args = opts[0]
+            if args in ("-h", "--help"):                                        #they only need the option
+                f = open("dat/helpfile.txt", "r")
+                print(f.read())
+                f.close()
+                sys.exit()
+            elif args in ("-v", "--version"):
+                print("dmgr v0.1.1")
+                sys.exit()
+        except IndexError:
+            print("For usage Explanation type 'dmgr -h'")
+            sys.exit()
+
+        try:                                                                    #they need the source file too
+            src_file = opts[1]
+            if args in ("-f", "--free"):
+                print("placeholder for free")
+                sys.exit()
+            elif args in ("-i", "--install"):
+                if getExtension(src_file) == 'deb':
+                    sp.call(["sudo", "dpkg", "-i", src_file])
+                elif getExtension(src_file) == 'rpm':
+                    print("if this won't work, try\n\n'sudo apt install rpm'\n\nand try it again then")
+                    sp.call(["sudo", "rpm", "-i", src_file])
+                else:
+                    print('Wrong Input. Only .rpm and .deb files accepted')
+                    print("Try 'dmgr -h' for more")
+                sys.exit()
+            elif args in ("-s", "--size"):
+                print("The file size is: " + str(os.path.getsize(src_file))+ "B")
+                sys.exit()
+            elif args in ("-p", "--partition"):
+                print("placeholder for partition")
+                sys.exit()
+            elif args in ("-d", "--delete"):
+                sp.call(["sudo", "rm", "-rf", src_file])
+                print("Already knew that the default command for that is:\nrm -rf [src_file]")
+                sys.exit()
+        except IndexError:
+            print("dmgr needs a file or directory for that task.\nType 'dmgr -h' for more.")
+            sys.exit()
+
+
+        try:                                                                    #and they also need the destination file
+            dest_file = opts[2]
+            if args in ("-c", "--copy"):
+                sp.call(["sudo", "cp", src_file, dest_file])
+                print("Already knew that the default command for that is:\ncp [src_file] [dest_file]")
+                sys.exit()
+            elif args in ("-x", "--cut"):
+                sp.call(["sudo", "mv", src_file, dest_file])
+                print("Already knew that the default command for that is:\nmv [src_file] [dest_file]")
+                sys.exit()
+            else:
+                print("option " + args + " not recognized\nTry 'dmgr -h' for more information")
+                sys.exit()
+        except IndexError:
+            print("dmgr needs a source and a destination file for that task.\nType 'dmgr -h' for more.")
+            sys.exit()
+
+
+class Option():
+    def main(self):
+        act1 = Action()
+        act1.option()
+
+if __name__ == "__main__":
+    opt1 = Option()
+    opt1.main()
