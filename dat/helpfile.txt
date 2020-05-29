@@ -1,1 +1,27 @@
-If you need help. this will be updated the next times
+Usage:
+	dmgr [OPTION] [SOURCE] [DESTINATION]
+
+OPTIONS			MEANING
+
+-h --help		Displays this help text.
+
+-v --version		Displays the Version of dmgr
+
+-c --copy		Copies the Source File to the given
+			Destination.
+
+-x --cut		Moves the Source File to the Destination.
+
+-d --delete		Deletes the Source File.
+
+-i --install		Installs the given file. Only .deb and
+			.rpm files are accepted.
+
+-f --free		Displays the available space of the given
+			partition.
+
+-p --partition		Displays the partition name in that the
+			file or directory is.
+
+-s --size		Displays the size of a given file or directory.
+
